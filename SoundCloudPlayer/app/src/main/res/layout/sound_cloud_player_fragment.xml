@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="player"
+            type="com.daveanthonythomas.soundcloudplayer.model.SoundCloudPlayerViewModel"/>
+
+        <variable
+            name="track"
+            type="com.daveanthonythomas.soundcloudplayer.model.SoundCloudTrack"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="155dp">
+
+        <ImageView
+            android:id="@+id/track_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentLeft="true"
+            />
+
+        <android.support.v4.widget.ContentLoadingProgressBar
+            android:id="@+id/track_loading"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_toRightOf="@+id/track_image"/>
+
+        <Button
+            android:id="@+id/track_play_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/track_image"
+            android:background="@{player.playing ? @drawable/ic_pause_black_24dp : @drawable/ic_play_arrow_black_24dp }"
+            android:visibility="@{player.loading ? View.GONE : View.VISIBLE }"/>
+
+        <TextView
+            android:id="@+id/track_artist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="55dp"
+            android:layout_toRightOf="@+id/track_image"
+            android:text="@{track.user.permalink}"
+            android:textSize="14sp"
+            />
+
+        <TextView
+            android:id="@+id/track_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/track_artist"
+            android:layout_marginLeft="55dp"
+            android:layout_toRightOf="@+id/track_image"
+            android:text="@{track.title}"
+            android:textSize="18sp"
+            />
+
+        <com.daveanthonythomas.soundcloudplayer.ui.SoundCloudWaveformView
+            android:id="@+id/track_wave_form"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="7dp"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"/>
+
+        <SeekBar
+            android:id="@+id/track_seek_bar"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_alignParentBottom="true"
+            android:visibility="@{player.loading ? View.GONE : View.VISIBLE }"/>
+
+    </RelativeLayout>
+</layout>
