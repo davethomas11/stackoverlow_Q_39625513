@@ -1,0 +1,30 @@
+body {
+    font-family: 'Raleway', sans-serif;
+}
+
+#SoundCloudPlayer .track_artwork {
+    float:left;
+    margin-right: 6px;
+}
+
+#SoundCloudPlayer .track_artist {
+    font-size: small;
+    margin-bottom: 4px;
+}
+
+#SoundCloudPlayer .track_title {
+    margin-top: 0px;
+    font-weight: bold;
+}
+
+#SoundCloudPlayer .track_control {
+    cursor: pointer;
+    display: none;
+}
+
+#SoundCloudPlayer .track_seek_bar .ui-slider-range { background: orange; }
+#SoundCloudPlayer .track_seek_bar .ui-slider-handle { border-color: orange; }
+
+#SoundCloudPlayer .track_waveform {
+    width: 100%;
+}

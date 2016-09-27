@@ -1,0 +1,35 @@
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <title>SoundCloud API Web Player Demo</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/themes/smoothness/jquery-ui.css" />
+    <script src="jquery.ui.touch-punch.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
+    <script src="https://connect.soundcloud.com/sdk/sdk-3.1.2.js"></script>
+    <script src="waveform.js"></script>
+    <script src="player.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="style.css" rel="stylesheet" />
+</head>
+<body>
+
+<form method="get">
+    <label for="trackId">Load Track:</label>
+    <input name="trackId" type="text" value="271188615" />
+    <button>GO</button>
+</form>
+
+<section id="SoundCloudPlayer">
+
+    <img class="track_artwork" />
+    <p class="track_artist"></p>
+    <p class="track_title"></p>
+    <i class="material-icons track_play track_control" onClick="play()">play_circle_filled</i>
+    <i class="material-icons track_pause track_control" onClick="pause()">pause_circle_filled</i>
+    <canvas class="track_waveform"></canvas>
+    <div class="track_seek_bar" ></div>
+</section>
+</body>
+</html>
