@@ -1,10 +1,12 @@
-var player, mTrack, media, seekBarInterval, waveForm;
+var player, mTrack, audio, seekBarInterval, waveForm;
 var updatingSeekBar = false;
+var clickingSeekBar = false;
+var clientId = 'cUa40O3Jg3Emvp6Tv4U6ymYYO50NUGpJ';
 
 $(function () {
 
     SC.initialize({
-        client_id: 'cUa40O3Jg3Emvp6Tv4U6ymYYO50NUGpJ'
+        client_id: clientId
     });
 
     player = document.getElementById("SoundCloudPlayer");
@@ -22,6 +24,7 @@ function loadTrackEnteredInInput() {
 
 function loadTrack(trackId) {
 
+
     SC.get('/tracks/' + trackId).then(function (track) {
 
         // Inspect for info on track you want:
@@ -32,7 +35,6 @@ function loadTrack(trackId) {
         streamTrack(track);
 
         waveForm = new WaveForm(track.waveform_url);
-        waveForm.load();
 
     }, function () {
 
@@ -58,59 +60,63 @@ function renderTrack(track) {
 
 function streamTrack(track) {
 
-    SC.stream('/tracks/' + track.id).then(function (mediaPlayer) {
-        media = mediaPlayer;
+    var trackUrl = track.stream_url + "?client_id=" + clientId;
 
-        console.log(media);
+    audio = new Audio(trackUrl);
+    console.log(trackUrl);
 
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+        
+        // Sorry can not auto play on mobile =_(
+        // http://stackoverflow.com/questions/26066062/autoplay-html5-audio-player-on-mobile-browsers
+        $(player).find(".track_pause").hide();
+        $(player).find(".track_play").fadeIn();
+    } else {
         play();
-    });
+    }
+    
 }
 
 function play() {
-    if (!media) {
-        return;
-    }
 
     $(player).find(".track_play").hide();
     $(player).find(".track_pause").fadeIn();
 
-    media.play();
+    audio.play();
 
     seekBarInterval = setInterval(updateSeekBar, 500);
 }
 
 function pause() {
-    if (!media) {
-        return;
-    }
 
     $(player).find(".track_pause").hide();
     $(player).find(".track_play").fadeIn();
-    media.pause();
+
+    audio.pause();
 
     clearInterval(seekBarInterval);
 }
 
 function seek() {
-    if (!media) {
-        return;
-    }
 
+    clickingSeekBar = true;
     if (!updatingSeekBar) {
-        media.seek($(player).find(".track_seek_bar").slider("value"));
+        audio.currentTime = $(player).find(".track_seek_bar").slider("value") / 1000;
     }
+    clickingSeekBar = false;
 }
 
 function updateSeekBar() {
-    if (!media) {
+
+    if (clickingSeekBar) {
         return;
     }
 
-    waveForm.setProgress(media.currentTime() / mTrack.duration);
+    var time = (audio.currentTime * 1000);
+    waveForm.setProgress((audio.currentTime * 1000) / mTrack.duration);
 
     updatingSeekBar = true;
-    $(player).find(".track_seek_bar").slider("value", media.currentTime());
+    $(player).find(".track_seek_bar").slider("value", time);
     updatingSeekBar = false;
 }
 
