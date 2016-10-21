@@ -1,6 +1,5 @@
 var player, mTrack, audio, seekBarInterval, waveForm;
 var updatingSeekBar = false;
-var clickingSeekBar = false;
 var clientId = 'cUa40O3Jg3Emvp6Tv4U6ymYYO50NUGpJ';
 
 $(function () {
@@ -97,27 +96,18 @@ function pause() {
     clearInterval(seekBarInterval);
 }
 
-function seek() {
+function seek(event) {
 
-    clickingSeekBar = true;
-    if (!updatingSeekBar) {
+    if (event.originalEvent) {
         audio.currentTime = $(player).find(".track_seek_bar").slider("value") / 1000;
     }
-    clickingSeekBar = false;
+    waveForm.setProgress((audio.currentTime * 1000) / mTrack.duration); 
 }
 
 function updateSeekBar() {
 
-    if (clickingSeekBar) {
-        return;
-    }
-
     var time = (audio.currentTime * 1000);
-    waveForm.setProgress((audio.currentTime * 1000) / mTrack.duration);
-
-    updatingSeekBar = true;
     $(player).find(".track_seek_bar").slider("value", time);
-    updatingSeekBar = false;
 }
 
 /**
